@@ -70,13 +70,42 @@ class FTCS:
 
         return u
 
+    # def plot_solution(self):
+    #     plt.figure()
+    #     plt.plot(np.exp(self.x), self.u[:, 0], label='$t=0$')
+    #     plt.xlabel('$S$')
+    #     plt.ylabel('Payoff')
+    #     plt.legend()
+    #     plt.show()
+
+    # def plot_grid(self):
+    #     plt.figure()
+    #     plt.imshow(self.u, origin='lower', aspect='auto')
+    #     plt.xlabel('$\\tau$')
+    #     plt.ylabel('S')
+    #     plt.show()
 
     def plot_solution(self):
-        plt.figure()
-        plt.plot(np.exp(self.x), self.u[:, 0], label='$t=0$')
-        plt.xlabel('$S$')
-        plt.ylabel('Payoff')
+        # Plotting
+        plt.figure(figsize=(12, 6))
+
+        # Plot the final option prices as a function of the stock prices
+        plt.subplot(1, 2, 1)
+        plt.plot(np.exp(self.x), self.u[:, 0], label='Option Value at t=0')
+        # plt.plot(np.exp(self.x), self.u[:, -1], label='Option Value at t=T')
+        plt.xlabel('Stock Price')
+        plt.ylabel('Option Value')
         plt.legend()
+
+        # Plot the grid (evolution of the option price over time for a range of stock prices)
+        plt.subplot(1, 2, 2)
+        S_grid, t_grid = np.meshgrid(np.exp(self.x), self.t, indexing='ij')
+        plt.contourf(S_grid, t_grid, self.u, 50, cmap='viridis')
+        plt.colorbar(label='Option Value')
+        plt.xlabel('Stock Price')
+        plt.ylabel('Time to Maturity')
+        plt.tight_layout()
+
         plt.show()
 
 
